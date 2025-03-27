@@ -1,24 +1,27 @@
-export default {
-  async fetch(request) {
-    const urlParams = new URL(request.url).searchParams;
-    const id = urlParams.get("id") || 1;
+<?php
+// السماح بطلبات من أي مصدر
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
 
-    const apiUrl = `https://high-kora.com:443/TOD/WEB/BEIN/api.php?id=${id}`;
+// الحصول على ID من الطلب
+$id = isset($_GET['id']) ? intval($_GET['id']) : 1;
 
-    const response = await fetch(apiUrl, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Linux; Android 10; K)",
-        "Referer": `https://high-kora.com/TOD/WEB/BEIN/bs${id}.php`
-      }
-    });
+// رابط الـ API الأصلي
+$url = "https://high-kora.com:443/TOD/WEB/BEIN/api.php?id=$id";
 
-    const text = await response.text();
-    return new Response(text.replace(/\\\//g, "/"), {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, OPTIONS"
-      }
-    });
-  }
-}
+// إعداد الطلب باستخدام cURL
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "User-Agent: Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Mobile Safari/537.36",
+    "Referer: https://high-kora.com/TOD/WEB/BEIN/bs$id.php",
+    "Cookie: _ga=GA1.2.649873137.1740151204; _ga_FF54ETMD0E=GS1.1.1740260056.3.1.1740260994.0.0.0"
+]);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+// طباعة البيانات
+echo $response;
+?>
