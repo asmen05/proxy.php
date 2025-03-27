@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,
+ initial-scale=1">
+    <title>ALWAZIR-TV</title>
+     <link rel="stylesheet" href="https://www.high-kora.com/TOD/WEB/new.css">
+    <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+    <style>
+        body {
+	
+	            margin: 0;
+	            padding: 0;
+	            background: black;
+	            color: white;
+	            font-family: 'Tajawal',
+	 sans-serif;
+	            text-align: center;
+	        
+}
+        .video-container {
+	
+	            width: 100%;
+	            height: 100vh;
+	            display: flex;
+	            justify-content: center;
+	            align-items: center;
+	            background: black;
+	            position: relative;
+	        
+}
+        .error-message {
+	
+	            font-size: 20px;
+	            font-weight: bold;
+	            color: red;
+	            display: none;
+	        
+}
+        div#player {
+	
+	            width: 100%;
+	            height: 100%;
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            right: 0;
+	            bottom: 0;
+	        
+}
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <div id="player"></div>
+        <div class="error-message" id="errorMessage">⚠️ لم يتم العثور على القناة المطلوبة</div>
+    </div>
+
+    <script>
+        function getParameterByName(name) {
+	
+	            const urlParams = new URLSearchParams(window.location.search);
+	            return urlParams.get(name);
+	        
+}
+
+        const ConfiguracionCanales = {
+	
+	            "Viaplay Sport 1": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/vssp/vssp.isml/index.mpd",
+		
+		                k1: "d8d0506523d95fc082d6caef60e84979",
+		
+		                k2: "69992fd2d7b9211d41ecc2243803e87c"
+		            
+	},
+	
+	            "Viaplay Sport 2": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra1/xtra1.isml/index.mpd",
+		
+		                k1: "9df8ec5f86995102a6c9987d360b18c7",
+		
+		                k2: "bb525f095535fa1ef2fd42f3068afd56"
+		            
+	},
+	
+	            "Viaplay Sport 3": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra2/xtra2.isml/index.mpd",
+		
+		                k1: "66caccf1f6af575eaabd30f8a57c4630",
+		
+		                k2: "db953ce4a7598c306ffaea9b6abd2d90"
+		            
+	},
+	
+	            "Viaplay Sport 4": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra3/xtra3.isml/index.mpd",
+		
+		                k1: "4c69d2c8393d5423b1ee1a610d8bbb89",
+		
+		                k2: "0a7cdf8676115a2cd69d0b10e610d80d"
+		            
+	},
+	
+	            "Viaplay Sport 5": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra4/xtra4.isml/index.mpd",
+		
+		                k1: "b3c26e9626cf5574b4a52bf320b9d19c",
+		
+		                k2: "ad521a843382c2066349e7e78047347c"
+		            
+	},
+	
+	             "Viaplay Sport 6": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra5/xtra5.isml/index.mpd",
+		
+		                k1: "8bda165496be50abb5bcc361a452085a",
+		
+		                k2: "d982fdac32682f84ac1345a03f6a00d9"
+		            
+	},
+	
+	            "Viaplay Sport 7": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra6/xtra6.isml/index.mpd",
+		
+		                k1: "3d5eb1d7dc0f5c98b30d5a3fad22ba5e",
+		
+		                k2: "3396da5899df4fec8cc3b64172e2e9ab"
+		            
+	},
+	
+	             "Viaplay Sport 8": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra7/xtra7.isml/index.mpd",
+		
+		                k1: "f0e8a461ecb258478d2d70f7effd4f3c",
+		
+		                k2: "f223220e718764a76b1eaf9ac32c79d1"
+		            
+	},
+	
+	             "Viaplay Sport 9": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra8/xtra8.isml/index.mpd",
+		
+		                k1: "442e6fc210d952b99c7a79c3a4f746d7",
+		
+		                k2: "dfb52b483d5d7723e42cabb7f26e46c9"
+		            
+	},
+	
+	             "Viaplay Sport 10": {
+		
+		                url: "https://sky-de1.alwazir-tv.workers.dev/vp/xtra9/xtra9.isml/index.mpd",
+		
+		                k1: "23e573863ee15c428f7ef5710f72b4af",
+		
+		                k2: "cf566f654fabf06aba93a1f951bbb898"
+		            
+	},
+	
+	           
+	            "ZIGGO1": {
+		
+		                url: "https://mag04.tvx.prd.tv.odido.nl/wh7f454c46tw75168188_-627298088/PLTV/86/224/3221241590/3221241590.mpd?accountinfo=~~V2.0~qbcsJh_jU5C9BcZc959e_wae44b4867b3417aa76b5db2da20fe46c~KZzTWjB8qD1zdgbJjRPVLJX-tV0qiN9RBHC_iseGrsmTSRjj06oGDtGlpSCRGOwF3626cf085c08d024c7e4aafc18c32440:UTC,
+		",
+		
+		                k1: "ef34ae91b4f2415e8439b2ad105e7488",
+		
+		                k2: "243248d8de1ff8c7c587ee2057317523"
+		            
+	},
+	
+	            "ZIGGO2": {
+		
+		                url: "https://mag03.tvx.prd.tv.odido.nl/wh7f454c46tw266117884_-1972819316/PLTV/86/224/3221241560/3221241560.mpd?accountinfo=~~V2.0~OhA1DF4svOZppKxb-t-Ngw144cce44121c63284a33d5453493e5c8~1_Fmlu5PevHMYnEi9Z_HX2goKAd0VHSuxZMoIcAXcawYvG1meqGp2eQ2Ibhjvh7e59e7f6df3d57f23a32024ad67f0f19dc:UTC,
+		",
+		
+		                k1: "3cfa8625f650406ebf6a4d1ea737f572",
+		
+		                k2: "0534e747c70b364aa7210e1bf3191df0"
+		            
+	},
+	
+	             "ZIGGO3": {
+		
+		                url: "https://mag02.tvx.prd.tv.odido.nl/wh7f454c46tw407556707_-381738111/PLTV/86/224/3221241511/3221241511.mpd?accountinfo=~~V2.0~yVi0dMX4icO5Ka9e92EQfg8812e1c1044f7d357066472e3ee99ef4~2dRB9E-vDtoAbYl169LbcJpxUgWVJtbeU_PlhGfNUflphvljOb5VaEhxruETYG9qcccaf5c5b655bf7504ed7ec5a1dd798f:UTC,
+		",
+		
+		                k1: "4dbea4b5713a4aa1ae3a2544cd522fc7",
+		
+		                k2: "a8323ea99b2d6200a48e1bc27322d548"
+		            
+	},
+	
+	             "ZIGGO4": {
+		
+		                url: "https://mag02.tvx.prd.tv.odido.nl/wh7f454c46tw407556707_-381738111/PLTV/86/224/3221241511/3221241511.mpd?accountinfo=~~V2.0~yVi0dMX4icO5Ka9e92EQfg8812e1c1044f7d357066472e3ee99ef4~2dRB9E-vDtoAbYl169LbcJpxUgWVJtbeU_PlhGfNUflphvljOb5VaEhxruETYG9qcccaf5c5b655bf7504ed7ec5a1dd798f:UTC,
+		",
+		
+		                k1: "4dbea4b5713a4aa1ae3a2544cd522fc7",
+		
+		                k2: "a8323ea99b2d6200a48e1bc27322d548"
+		            
+	},
+	
+	             "ZIGGO5": {
+		
+		                url: "https://mag04.tvx.prd.tv.odido.nl/wh7f454c46tw865586829_-819821292/PLTV/86/224/3221241610/3221241610.mpd?accountinfo=~~V2.0~LNS2PBO5tyhp5z1Pe6ObBA6cd7a4ec35c4492167b9376e6dff2932~BZw2dESHw-I1PQCFh9gGxCMvrIIzgMdYAe900qj8l6aoXUX9ahyR6I9EUIu7nDR4f4887615c83ea7a8cee6dd33137c4ebe:UTC,
+		",
+		
+		                k1: "3fb40d85724942f994d86943f48021db",
+		
+		                k2: "a6da8742502c8a2153067f5f2a70fb02"
+		            
+	},
+	
+	            "ZIGGO6": {
+		
+		                url: "https://mag03.tvx.prd.tv.odido.nl/wh7f454c46tw1024019879_757686866/PLTV/86/224/3221241521/3221241521.mpd?accountinfo=~~V2.0~URnD_afuosWHfY5OEqRXOwfa01c8ac56cf4511de39c2c4a3cab278~iVxKjbtf2gx_dYFqI-vt5C4Cu3COYDjZaw6C_kO2T2wm30fwo1ctD1gr_e2PrgTh48867c3177f3c34842031623cb2e06c9:UTC,
+		",
+		
+		                k1: "1a0ffa532aa2498490826e2f6a37f7c9",
+		
+		                k2: "a8cec27bc7d47909c5b0d8f473b43e8d"
+		            
+	},
+	
+	           
+	        
+};
+
+        document.addEventListener("DOMContentLoaded",
+ () => {
+	
+	            const id = getParameterByName('id');
+	            const config = ConfiguracionCanales[
+		id
+	];
+	
+	            if (!config || !config.url) {
+		
+		                document.getElementById("errorMessage").style.display = "block";
+		                return;
+		            
+	}
+	
+	            const sources = [
+		
+	];
+	
+	            if (config.url.includes('.m3u8')) {
+		
+		                sources.push({
+			 file: config.url 
+		});
+		            
+	} else if (config.url.includes('.mpd') && config.k1 && config.k2) {
+		
+		                sources.push({
+			
+			                    file: config.url,
+			
+			                    drm: {
+				 "clearkey": {
+					 "keyId": config.k1,
+					 "key": config.k2 
+				} 
+			}
+			                
+		});
+		            
+	}
+	
+	            const player = jwplayer("player").setup({
+		
+		                playlist: [
+			{
+				 sources 
+			}
+		],
+		
+		                width: "100%",
+		
+		                height: "100%",
+		
+		                controls: true,
+		
+		                stretching: "uniform",
+		
+		                autostart: true,
+		
+		                volume: 50,
+		
+		                mute: false,
+		
+		                logo: {
+			
+			                    file: "https://i.postimg.cc/YCcXxBWS/logo2.png",
+			
+			                    link: "https://t.me/alwazirtv",
+			
+			                    hide: false,
+			
+			                    position: "bottom-left",
+			
+			                    margin: 20
+			                
+		},
+		
+		                 playbackRateControls: true,
+		 
+		               playbackRates: [
+			0.5,
+			 1,
+			 1.25,
+			 1.5,
+			 2
+		],
+		
+		                aspectratio: "16:9"
+		            
+	});
+	
+	            // زر توسيع الفيديو
+	            let isExpanded = false;
+	    
+	    // رمز SVG لزر التمدد
+	     const expandSvg = `<svg fill="#ffffff" version="1.1" id="expand_icon" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 100 100" xml:space="preserve">
+	      <g>
+	        <path d="M22.661,
+	20.5H36c1.104,
+	0,
+	2-0.896,
+	2-2s-0.896-2-2-2H19c-1.104,
+	0-2.5,
+	1.276-2.5,
+	2.381v17c0,
+	1.104,
+	0.896,
+	2,
+	2,
+	2s2-0.896,
+	2-2V24.876l16.042,
+	15.791c0.391,
+	0.391,
+	1.027,
+	0.586,
+	1.539,
+	0.586s1.086-0.195,
+	1.477-0.586c0.781-0.781,
+	0.812-2.237,
+	0.031-3.019L22.661,
+	20.5z"/>
+	        <path d="M83,
+	16.5H66c-1.104,
+	0-2,
+	0.896-2,
+	2s0.896,
+	2,
+	2,
+	2h12.605L61.647,
+	37.648c-0.781,
+	0.781-0.781,
+	2.142,
+	0,
+	2.923c0.39,
+	0.391,
+	0.902,
+	0.633,
+	1.414,
+	0.633s0.774-0.171,
+	1.164-0.562l16.274-16.5v11.738c0,
+	1.104,
+	0.896,
+	2,
+	2,
+	2s2-0.896,
+	2-2v-17C84.5,
+	17.776,
+	84.104,
+	16.5,
+	83,
+	16.5z"/>
+	        <path d="M36.542,
+	60.962L20.5,
+	76.754V65.881c0-1.104-0.896-2-2-2s-2,
+	0.896-2,
+	2v17c0,
+	1.104,
+	1.396,
+	1.619,
+	2.5,
+	1.619h17c1.104,
+	0,
+	2-0.896,
+	2-2s-0.896-2-2-2H22.529L39.62,
+	63.6c0.781-0.781,
+	0.656-1.951-0.125-2.732C38.715,
+	60.086,
+	37.322,
+	60.181,
+	36.542,
+	60.962z"/>
+	        <path d="M82.5,
+	63.881c-1.104,
+	0-2,
+	0.896-2,
+	2v11.606L64.226,
+	60.962c-0.78-0.781-1.923-0.781-2.703,
+	0c-0.781,
+	0.781-0.719,
+	1.856,
+	0.062,
+	2.638l17.152,
+	16.9H66c-1.104,
+	0-2,
+	0.896-2,
+	2s0.896,
+	2,
+	2,
+	2h17c1.104,
+	0,
+	1.5-0.515,
+	1.5-1.619v-17C84.5,
+	64.776,
+	83.604,
+	63.881,
+	82.5,
+	63.881z"/>
+	      </g>
+	    </svg>`;
+	
+	            player.addButton(expandSvg,
+	 'expand',
+	 function() {
+		
+		                const videoElement = document.querySelector("video");
+		                if (!videoElement) return;
+		                videoElement.style.objectFit = isExpanded ? 'fill' : 'contain';
+		                isExpanded = !isExpanded;
+		            
+	},
+	 'expandButton');
+	
+	            player.on("ready",
+	 function() {
+		
+		                console.log("تم تحميل المشغل بنجاح!");
+		            
+	});
+	        
+});
+
+        // تعطيل أدوات المطور
+        document.addEventListener('keydown',
+ function(e) {
+	
+	            if (e.ctrlKey && [
+		'KeyC',
+		 'KeyX',
+		 'KeyS',
+		 'KeyU'
+	].includes(e.code)) {
+		
+		                e.preventDefault();
+		                alert('نسخ المحتوى غير مسموح!');
+		            
+	}
+	
+	            if ((e.ctrlKey && e.shiftKey && e.code === 'KeyI') || e.code === 'F12') {
+		
+		                e.preventDefault();
+		                alert('أدوات المطور معطلة!');
+		            
+	}
+	        
+});
+
+        // منع النقر بزر الفأرة الأيمن
+        document.addEventListener('contextmenu',
+ function(e) {
+	
+	            e.preventDefault();
+	            alert('نسخ الروابط غير مسموح!');
+	        
+});
+
+        // تعطيل تحديد النصوص
+        document.addEventListener('selectstart',
+ function(e) {
+	
+	            e.preventDefault();
+	        
+});
+
+        // تعطيل سحب الرابط
+        document.querySelectorAll('.video-serv a').forEach(function(link) {
+	
+	            link.addEventListener('mousedown',
+	 function(event) {
+		
+		                event.preventDefault();
+		            
+	});
+	            link.addEventListener('dragstart',
+	 function(event) {
+		
+		                event.preventDefault();
+		            
+	});
+	        
+});
+    </script>
+
+</body>
+</html>
